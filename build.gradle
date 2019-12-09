@@ -13,6 +13,8 @@ buildscript {
 
         springKafkaVersion = "2.3.3.RELEASE"
         kafkaVersion = "2.3.1"
+
+        mapstructVersion = "1.3.0.Final"
     }
     //gradle插件的仓库
     repositories {
@@ -38,7 +40,6 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: "net.ltgt.apt"
 apply plugin: 'net.ltgt.apt-idea'
 apply plugin: "io.freefair.lombok"
-apply plugin: "io.freefair.lombok"
 
 group = 'xyz.lonelyleaf'
 version = '0.0.1-SNAPSHOT'
@@ -48,6 +49,14 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+}
+
+//添加mapstuct的一些配置
+compileJava {
+    options.compilerArgs = [
+            '-Amapstruct.defaultComponentModel=spring',//默认生成为spring bean
+            '-Amapstruct.unmappedTargetPolicy=ERROR'//未映射字段默认报错
+    ]
 }
 
 repositories {
@@ -81,6 +90,12 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind"
     implementation "com.fasterxml.jackson.module:jackson-module-parameter-names"
     implementation "com.fasterxml.jackson.module:jackson-module-afterburner"
+    //序列化为geojson
+    implementation 'com.bedatadriven:jackson-datatype-jts:2.4'
+
+    //java bean转换
+    implementation "org.mapstruct:mapstruct-jdk8:$mapstructVersion"
+    annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
 
     //swagger文档
     implementation("io.springfox:springfox-swagger2:$springFoxVersion") {

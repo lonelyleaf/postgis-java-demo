@@ -8,6 +8,7 @@
 - jdk11
 - gradle6
 - postgres11+postgis
+- idea 2019.3
 
 
 ## 2.项目结构说明
@@ -98,7 +99,7 @@ default org.postgis.Point toGisPoint(SimplePoint point) {
 ```
 
 
-[mybatis-plus]: mybatis-plus
+[mybatis-plus]: https://mp.baomidou.com/
 [mapstruct]: https://mapstruct.org/
 [postgis-jdbc]: https://github.com/postgis/postgis-java
 [spring-fox]: https://github.com/springfox/springfox

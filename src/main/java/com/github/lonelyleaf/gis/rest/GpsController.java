@@ -5,13 +5,11 @@ import com.github.lonelyleaf.gis.dto.SimplePoint;
 import com.github.lonelyleaf.gis.entity.GpsEntity;
 import com.github.lonelyleaf.gis.mapper.GpsMapper;
 import com.github.lonelyleaf.gis.service.GpsService;
+import com.google.common.base.Strings;
 import com.vividsolutions.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -56,5 +54,18 @@ public class GpsController {
                 .collect(Collectors.toList());
     }
 
+    @PostMapping
+    public String simpleHistory(@RequestBody GpsDto gpsDto) {
+        if (gpsDto.getTime() == null) {
+            gpsDto.setTime(new Date());
+        }
+        if (Strings.isNullOrEmpty(gpsDto.getDevId())) {
+            throw new IllegalArgumentException("devId不能为空");
+        }
+
+        GpsEntity entity = gpsMapper.toEntity(gpsDto);
+        gpsService.save(entity);
+        return "ok";
+    }
 
 }

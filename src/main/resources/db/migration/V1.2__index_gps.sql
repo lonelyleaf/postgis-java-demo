@@ -1,0 +1,1 @@
+create index idx_gpt_location on t_gps using gist("location");

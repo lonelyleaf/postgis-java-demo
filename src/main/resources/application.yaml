@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+  jackson:
+    serialization:
+      write_dates_as_timestamps: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+  jdbc:
+    template:
+      query-timeout: 15
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/gis-test
+    username: postgres
+    password: admin
+    initialization-mode: never
+
+
+mybatis-plus:
+  #  configuration:
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-handlers-package: "xyz.lonelyleaf.gis.mybatis"

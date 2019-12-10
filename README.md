@@ -55,7 +55,11 @@
 
 也就是要使用`org.postgis.DriverWrapper`作为driver，然后jdbc的url使用`jdbc:postgresql_postGIS`就可以
 自动注册`org.postgis.Geometry`。但是，源码中支持的数据库类型是`geometry`而不支持`geography`，这两者的
-差别可以参考`不睡觉的怪叔叔`的文章https://blog.csdn.net/qq_35732147/article/details/86489918
+差别可以参考`不睡觉的怪叔叔`和`德哥`的文章
+
+[PostGIS教程十三：地理](https://blog.csdn.net/qq_35732147/article/details/86489918)
+[PostGIS 距离计算建议 - 投影 与 球 坐标系, geometry 与 geography 类型](https://github.com/digoal/blog/blob/master/201710/20171018_02.md)
+
 
 为了让`geography`也能自动注册，项目中自定义了`com.github.lonelyleaf.gis.db.DriverWrapper`类，
 转换出来还是`org.postgis.Geometry`,在java代码层使用和`geometry`并没做区分。

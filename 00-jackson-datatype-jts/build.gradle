@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+group 'com.github.lonelyleaf'
+version '2.3-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+    implementation "org.locationtech.jts:jts-core:1.16.1"
+
+    testCompile 'junit:junit:4.11'
+    testCompile('org.easymock:easymock:3.2')
+}

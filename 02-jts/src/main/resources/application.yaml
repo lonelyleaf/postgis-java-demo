@@ -13,13 +13,16 @@ spring:
     template:
       query-timeout: 15
 
+  flyway:
+    enabled: true
+
   datasource:
 #    driver-class-name: org.postgresql.Driver
 #    url: jdbc:postgresql://localhost:5432/gis-test
-    #这里使用的驱动不一样！，可以自动添加gis的各种类型
+    #这里使用的驱动不一样！，可以自动添加jts的各种类型
     driver-class-name: com.github.lonelyleaf.gis.db.jts.JtsGisWrapper
     #url也不一样
-    url: jdbc:postgresql_JTS://localhost:5432/gis-test
+    url: jdbc:postgresql_JTS://localhost:5432/jts-test
     username: postgres
     password: admin
     initialization-mode: never

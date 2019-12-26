@@ -6,8 +6,6 @@ import com.github.lonelyleaf.gis.entity.GpsEntity;
 import com.github.lonelyleaf.gis.mapper.GpsMapper;
 import com.github.lonelyleaf.gis.service.GpsService;
 import com.google.common.base.Strings;
-import com.vividsolutions.jts.geom.Point;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 

@@ -20,14 +20,14 @@ public class JacksonConfig {
     /*
      * Jackson Afterburner module to speed up serialization/deserialization.
      */
-    @Bean
-    public AfterburnerModule afterburnerModule() {
-        AfterburnerModule module = new AfterburnerModule();
-        // make Afterburner generate bytecode only for public getters/setter and fields
-        // without this, Java 9+ complains of "Illegal reflective access"
-        module.setUseValueClassLoader(false);
-        return module;
-    }
+//    @Bean
+//    public AfterburnerModule afterburnerModule() {
+//        AfterburnerModule module = new AfterburnerModule();
+//        // make Afterburner generate bytecode only for public getters/setter and fields
+//        // without this, Java 9+ complains of "Illegal reflective access"
+//        module.setUseValueClassLoader(false);
+//        return module;
+//    }
 
     @Bean
     public ParameterNamesModule parameterNamesModule() {

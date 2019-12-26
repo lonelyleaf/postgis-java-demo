@@ -19,12 +19,13 @@ package com.github.lonelyleaf.gis.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.MultiPoint;
 
 import java.util.Date;
 
 @Data
-public class GpsHistory {
+public class GpsLine {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
@@ -39,6 +40,6 @@ public class GpsHistory {
     @ApiModelProperty("设备id")
     private String devId;
 
-    private MultiPoint points;
+    private LineString line;
 
 }

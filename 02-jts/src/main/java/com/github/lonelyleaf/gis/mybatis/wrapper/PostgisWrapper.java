@@ -22,6 +22,11 @@ import org.locationtech.jts.geom.Geometry;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 实现了部分的gis函数作为查询条件，详细内容请参考
+ *
+ * <p/>https://postgis.net/docs/manual-dev/reference.html
+ */
 public class PostgisWrapper<T> extends QueryWrapper<T> {
 
     /**

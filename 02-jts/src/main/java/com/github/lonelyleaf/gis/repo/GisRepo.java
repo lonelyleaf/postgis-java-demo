@@ -21,6 +21,11 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.locationtech.jts.geom.Geometry;
 
+/**
+ * 详细内容请参考
+ *
+ * https://postgis.net/docs/manual-dev/reference.html
+ */
 @Mapper
 public interface GisRepo {
 

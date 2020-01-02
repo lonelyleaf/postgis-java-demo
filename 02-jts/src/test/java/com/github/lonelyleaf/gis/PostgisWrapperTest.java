@@ -17,10 +17,13 @@
 package com.github.lonelyleaf.gis;
 
 import com.github.lonelyleaf.gis.entity.DistrictEntity;
+import com.github.lonelyleaf.gis.entity.DistrictGeomEntity;
 import com.github.lonelyleaf.gis.mybatis.wrapper.PostgisWrapper;
+import com.github.lonelyleaf.gis.repo.DistrictGeomRepo;
 import com.github.lonelyleaf.gis.repo.DistrictRepo;
 import com.github.lonelyleaf.gis.repo.GisRepo;
 import com.github.lonelyleaf.gis.util.JtsUtil;
+import com.google.common.collect.Iterables;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -40,11 +43,16 @@ public class PostgisWrapperTest {
     @Autowired
     DistrictRepo districtRepo;
     @Autowired
+    DistrictGeomRepo districtGeomRepo;
+    @Autowired
     GisRepo gisRepo;
 
     private DistrictEntity guiyangDistrict = new DistrictEntity(2, "贵阳市", "市", "112520100000000");
     private DistrictEntity zunyiDistrict = new DistrictEntity(4, "遵义市", "市", "112520300000000");
 
+    /**
+     * 查找该坐标在哪个市
+     */
     @Test
     public void testStWithIn() {
         Point point = JtsUtil.newPoint(106.677, 26.572);
@@ -60,11 +68,42 @@ public class PostgisWrapperTest {
         Assert.assertEquals(guiyangDistrict, list.get(0));
     }
 
+    /**
+     * 查找贵阳市内的行政区
+     */
+    @Test
+    public void testStWithIn2() {
+        PostgisWrapper<DistrictGeomEntity> wrapper = new PostgisWrapper<>();
+        wrapper.eq("layer", "市");
+        wrapper.eq("name", "贵阳市");
+
+        List<DistrictGeomEntity> geomEntities = districtGeomRepo.selectList(wrapper);
+        Assert.assertEquals(1, geomEntities.size());
+        DistrictGeomEntity guiyang = geomEntities.get(0);
+        Assert.assertEquals("贵阳市", guiyang.getName());
+
+
+        PostgisWrapper<DistrictEntity> wrapper1 = new PostgisWrapper<>();
+        wrapper1.stWithIn("geom", guiyang.getGeom());
+        List<DistrictEntity> list = districtRepo.selectList(wrapper1);
+        for (DistrictEntity districtEntity : list) {
+            log.info(districtEntity.toString());
+        }
+        String[] results = new String[]{"贵阳市", "南明区", "云岩区", "花溪区", "乌当区",
+                "白云区", "观山湖区", "息烽县", "开阳县", "修文县", "清镇市"};
+
+        for (String result : results) {
+            DistrictEntity entity = list.stream().filter(input -> input.getName().equals(result)).findFirst().get();
+            Assert.assertNotNull("数据不全，未包含 " + result, entity);
+        }
+
+    }
+
     @Test
     public void testStDistance() {
         Point a = JtsUtil.newPoint(106.677, 26.572);
         Point c = JtsUtil.newPoint(106.433, 29.524);
-        //这里返回的距离是度，并且并未计算两点的球面距离
+        //这里返回的距离单位是度，并且并未计算两点的球面距离
         double distance1 = gisRepo.stDistance(a, c);
         Assert.assertEquals(2.9620668459709028, distance1, 0.000001);
         log.info("距离{}", distance1);

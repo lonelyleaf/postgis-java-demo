@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.lonelyleaf.gis.util;
+package com.github.lonelyleaf.gis.mybatis.jts;
 
+import org.apache.ibatis.type.MappedTypes;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Polygon;
 
-import org.locationtech.jts.geom.CoordinateXY;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.geom.PrecisionModel;
-
-public class JtsUtil {
-
-    /**
-     * srid为4326
-     */
-    public static final GeometryFactory geometryFactory4326 = new GeometryFactory(new PrecisionModel(), 4326);
-
-    public static Point newPoint(double x, double y) {
-        return geometryFactory4326.createPoint(new CoordinateXY(x, y));
-    }
-
+@MappedTypes(MultiPolygon.class)
+public class JtsMultiPolygonTypeHandler extends AbstractJtsGeometryTypeHandler<MultiPolygon> {
 }

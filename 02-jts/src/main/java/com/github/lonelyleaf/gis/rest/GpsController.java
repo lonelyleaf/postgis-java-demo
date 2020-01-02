@@ -8,6 +8,7 @@ import com.github.lonelyleaf.gis.mapper.GpsMapper;
 import com.github.lonelyleaf.gis.service.GpsService;
 import com.github.lonelyleaf.gis.util.JtsUtil;
 import com.google.common.base.Strings;
+import io.swagger.annotations.Api;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/gps")
 @Validated
+@Api(description = "轨迹数据")
 public class GpsController {
 
     private final GpsService gpsService;

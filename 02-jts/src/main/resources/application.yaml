@@ -17,8 +17,8 @@ spring:
     enabled: true
 
   datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/gis-test
+    #    driver-class-name: org.postgresql.Driver
+    #    url: jdbc:postgresql://localhost:5432/gis-test
     #这里使用的驱动不一样！，可以自动添加jts的各种类型
     driver-class-name: com.github.lonelyleaf.gis.db.jts.JtsGisWrapper
     #url也不一样
@@ -27,8 +27,7 @@ spring:
     password: admin
     initialization-mode: never
 
-
 mybatis-plus:
-  #  configuration:
-  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   type-handlers-package: "com.github.lonelyleaf.gis.mybatis.jts"

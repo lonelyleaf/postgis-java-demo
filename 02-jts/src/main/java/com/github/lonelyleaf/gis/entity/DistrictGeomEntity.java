@@ -17,16 +17,18 @@
 package com.github.lonelyleaf.gis.entity;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.locationtech.jts.geom.MultiPolygon;
 
 @Data
-@TableName("行政边界，这里只有贵州的")
-public class AdminBoundary {
+@EqualsAndHashCode(callSuper=true)
+@ApiModel("有行政边界的行政区")
+@TableName("t_guizhou_boundary")
+public class DistrictGeomEntity extends DistrictEntity {
 
-    @TableId(type = IdType.AUTO)
-    private int id;
+    private MultiPolygon geom;
 
 }

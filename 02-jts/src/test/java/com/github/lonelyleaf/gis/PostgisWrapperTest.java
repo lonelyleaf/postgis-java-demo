@@ -135,4 +135,11 @@ public class PostgisWrapperTest {
         Assert.assertEquals(zunyiDistrict, list.get(0));
     }
 
+    @Test
+    public void testBindRoad() {
+        Point point = JtsUtil.newPoint(106.873251, 27.530133);
+        Point lineRef = gisRepo.bindRoad(point, 30);
+        log.info(lineRef.toString());
+    }
+
 }

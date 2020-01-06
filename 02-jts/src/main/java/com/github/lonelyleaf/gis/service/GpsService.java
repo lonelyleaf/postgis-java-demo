@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 public class GpsService extends ServiceImpl<GpsRepo, GpsEntity> {
 
-
     public List<GpsEntity> history(String devId, Date bTime, Date eTime) {
         QueryWrapper<GpsEntity> wrapper = new QueryWrapper<>();
         wrapper.orderByAsc("time");

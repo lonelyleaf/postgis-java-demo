@@ -22,7 +22,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * 
  */
-package com.github.lonelyleaf.gis.db.jts;
+package org.postgis.jts;
 
 import org.locationtech.jts.geom.*;
 import org.postgis.binary.ByteSetter;
@@ -181,17 +181,17 @@ public class JtsBinaryWriter {
             return org.postgis.Geometry.GEOMETRYCOLLECTION;
         } else if (geom instanceof Point) {
             return org.postgis.Geometry.POINT;
-        } else if (geom instanceof org.locationtech.jts.geom.LineString) {
+        } else if (geom instanceof LineString) {
             return org.postgis.Geometry.LINESTRING;
-        } else if (geom instanceof org.locationtech.jts.geom.Polygon) {
+        } else if (geom instanceof Polygon) {
             return org.postgis.Geometry.POLYGON;
         } else if (geom instanceof MultiPoint) {
             return org.postgis.Geometry.MULTIPOINT;
         } else if (geom instanceof MultiLineString) {
             return org.postgis.Geometry.MULTILINESTRING;
-        } else if (geom instanceof org.locationtech.jts.geom.MultiPolygon) {
+        } else if (geom instanceof MultiPolygon) {
             return org.postgis.Geometry.MULTIPOLYGON;
-        } if (geom instanceof org.locationtech.jts.geom.GeometryCollection) {
+        } if (geom instanceof GeometryCollection) {
             return org.postgis.Geometry.GEOMETRYCOLLECTION;
         } else {
             throw new IllegalArgumentException("Unknown Geometry Type: " + geom.getClass().getName());

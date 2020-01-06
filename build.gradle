@@ -16,7 +16,9 @@ buildscript {
 
         mapstructVersion = "1.3.0.Final"
 
+        postgisJdbcVersion = "2.3.0"
         jtsVersion = "1.16.1"
+        spatial4jVersion = "0.7"
     }
     //gradle插件的仓库
     repositories {

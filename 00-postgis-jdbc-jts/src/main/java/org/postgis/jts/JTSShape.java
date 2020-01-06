@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.lonelyleaf.gis.db.jts;
+package org.postgis.jts;
 
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;

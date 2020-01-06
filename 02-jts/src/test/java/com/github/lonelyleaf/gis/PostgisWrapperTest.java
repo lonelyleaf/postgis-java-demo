@@ -23,7 +23,6 @@ import com.github.lonelyleaf.gis.repo.DistrictGeomRepo;
 import com.github.lonelyleaf.gis.repo.DistrictRepo;
 import com.github.lonelyleaf.gis.repo.GisRepo;
 import com.github.lonelyleaf.gis.util.JtsUtil;
-import com.google.common.collect.Iterables;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;

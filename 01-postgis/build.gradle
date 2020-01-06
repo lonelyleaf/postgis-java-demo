@@ -35,7 +35,7 @@ dependencies {
     //pg驱动
     implementation "org.postgresql:postgresql:$postgresJdbcVersion"
     //postgis
-    implementation 'net.postgis:postgis-jdbc:2.3.0'
+    implementation "net.postgis:postgis-jdbc:$postgisJdbcVersion"
 
     //jackson相关
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-json-org"

@@ -1,11 +1,11 @@
 /*
  * JtsWrapper.java
- * 
+ *
  * Allows transparent usage of JTS Geometry classes via PostgreSQL JDBC driver
  * connected to a PostGIS enabled PostgreSQL server.
- * 
+ *
  * (C) 2005 Markus Schaber, markus.schaber@logix-tt.com
- * 
+ *
  * (C) 2015 Phillip Ross, phillip.w.g.ross@gmail.com
  *
  * This library is free software; you can redistribute it and/or
@@ -21,10 +21,10 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  */
 
-package com.github.lonelyleaf.gis.db.jts;
+package org.postgis.jts;
 
 import org.postgresql.Driver;
 import org.postgresql.PGConnection;
@@ -37,24 +37,24 @@ import java.util.logging.Logger;
 
 /**
  * JtsWrapper
- * 
+ *
  * Wraps the PostGreSQL Driver to add the JTS/PostGIS Object Classes.
- * 
+ *
  * This method currently works with J2EE DataSource implementations, and with
  * DriverManager framework.
- * 
+ *
  * Simply replace the "jdbc:postgresql:" with a "jdbc:postgres_jts:" in the jdbc
  * URL.
- * 
+ *
  * When using the drivermanager, you need to initialize JtsWrapper instead of
  * (or in addition to) org.postgresql.Driver. When using a J2EE DataSource
  * implementation, set the driver class property in the datasource config, the
  * following works for jboss:
- * 
+ *
  * &lt;driver-class&gt;org.postgis.jts.PostGisWrapper&lt;/driver-class&gt;
- * 
+ *
  * @author markus.schaber@logix-tt.com
- * 
+ *
  */
 public class JtsWrapper extends Driver {
 
@@ -80,12 +80,12 @@ public class JtsWrapper extends Driver {
     /**
      * Creates a postgresql connection, and then adds the JTS GIS data types to
      * it calling addpgtypes()
-     * 
+     *
      * @param url the URL of the database to connect to
      * @param info a list of arbitrary tag/value pairs as connection arguments
      * @return a connection to the URL or null if it isnt us
      * @exception SQLException if a database access error occurs
-     * 
+     *
      * @see java.sql.Driver#connect
      * @see org.postgresql.Driver
      */
@@ -103,6 +103,7 @@ public class JtsWrapper extends Driver {
      */
     public static void addGISTypes(PGConnection pgconn) throws SQLException {
         pgconn.addDataType("geometry", JtsGeometry.class);
+        pgconn.addDataType("geography", JtsGeometry.class);
     }
 
     /**
@@ -122,7 +123,7 @@ public class JtsWrapper extends Driver {
 
     /**
      * Check whether the driver thinks he can handle the given URL.
-     * 
+     *
      * @see java.sql.Driver#acceptsURL
      * @param url the URL of the driver
      * @return true if this driver accepts the given URL
@@ -138,7 +139,7 @@ public class JtsWrapper extends Driver {
 
     /**
      * Gets the underlying drivers major version number
-     * 
+     *
      * @return the drivers major version number
      */
 
@@ -148,7 +149,7 @@ public class JtsWrapper extends Driver {
 
     /**
      * Get the underlying drivers minor version number
-     * 
+     *
      * @return the drivers minor version number
      */
     public int getMinorVersion() {

@@ -24,7 +24,7 @@
  * 
  */
 
-package com.github.lonelyleaf.gis.db.jts;
+package org.postgis.jts;
 
 import org.postgresql.Driver;
 import org.postgresql.PGConnection;
@@ -76,7 +76,7 @@ public class JtsGisWrapper extends Driver {
      * @exception SQLException if a database access error occurs
      * 
      * @see java.sql.Driver#connect
-     * @see org.postgresql.Driver
+     * @see Driver
      */
     public Connection connect(String url, Properties info) throws SQLException {
         url = mangleURL(url);

@@ -22,11 +22,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
-package com.github.lonelyleaf.gis.db.jts;
+package org.postgis.jts;
 
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.impl.CoordinateArraySequence;
-import org.locationtech.jts.geom.impl.PackedCoordinateSequence;
 import org.postgis.binary.ByteGetter;
 import org.postgis.binary.ByteGetter.BinaryByteGetter;
 import org.postgis.binary.ByteGetter.StringByteGetter;
@@ -74,7 +73,7 @@ public class JtsBinaryParser {
      * @return the resulting parsed geometry
      */
     public Geometry parse(String value) {
-        StringByteGetter bytes = new ByteGetter.StringByteGetter(value);
+        StringByteGetter bytes = new StringByteGetter(value);
         return parseGeometry(valueGetterForEndian(bytes));
     }
 
@@ -86,7 +85,7 @@ public class JtsBinaryParser {
      * @return the resulting parsed geometry
      */
     public Geometry parse(byte[] value) {
-        BinaryByteGetter bytes = new ByteGetter.BinaryByteGetter(value);
+        BinaryByteGetter bytes = new BinaryByteGetter(value);
         return parseGeometry(valueGetterForEndian(bytes));
     }
 

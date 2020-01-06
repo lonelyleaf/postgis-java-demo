@@ -35,7 +35,7 @@ dependencies {
     //pg驱动
     implementation "org.postgresql:postgresql:$postgresJdbcVersion"
     //postgis
-    implementation 'net.postgis:postgis-jdbc:2.3.0'
+    implementation "net.postgis:postgis-jdbc:$postgisJdbcVersion"
 
     //jackson相关
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-json-org"
@@ -64,12 +64,13 @@ dependencies {
 
     //jts
     implementation "org.locationtech.jts:jts-core:$jtsVersion"
-    implementation 'org.locationtech.spatial4j:spatial4j:0.7'
+    implementation "org.locationtech.spatial4j:spatial4j:$spatial4jVersion"
     //序列化为geojson
     //这个没维护了，只有自己改下
     //implementation 'com.bedatadriven:jackson-datatype-jts:2.2'
     implementation project(':00-jackson-datatype-jts')
-//    implementation 'org.wololo:jts2geojson:0.14.1'
+    //postgis-jdbc-jts
+    implementation project(':00-postgis-jdbc-jts')
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }

@@ -1,5 +1,6 @@
 rootProject.name = 'postgis-java-demo'
 
 include "00-jackson-datatype-jts"
+include "00-postgis-jdbc-jts"
 include "01-postgis"
 include "02-jts"

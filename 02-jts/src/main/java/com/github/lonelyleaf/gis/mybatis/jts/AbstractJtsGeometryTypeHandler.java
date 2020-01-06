@@ -16,7 +16,7 @@
 
 package com.github.lonelyleaf.gis.mybatis.jts;
 
-import com.github.lonelyleaf.gis.db.jts.JtsGeometry;
+import org.postgis.jts.JtsGeometry;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.locationtech.jts.geom.Geometry;

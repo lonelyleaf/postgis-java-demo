@@ -24,7 +24,7 @@
  * 
  */
 
-package com.github.lonelyleaf.gis.db.jts;
+package org.postgis.jts;
 
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory;

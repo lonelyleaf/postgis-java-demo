@@ -1,0 +1,36 @@
+apply plugin: 'java-library'
+
+group = 'xyz.lonelyleaf'
+version = '2.3.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+    dependencyTestngVersion = "6.14.3"
+    dependencySlfjVersion = "1.7.25"
+    dependencyLogbackVersion = "1.2.3"
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    api "org.postgresql:postgresql:$postgresJdbcVersion"
+    api "net.postgis:postgis-jdbc:$postgisJdbcVersion"
+    //jts
+    api "org.locationtech.jts:jts-core:$jtsVersion"
+    api "org.locationtech.spatial4j:spatial4j:$spatial4jVersion"
+
+    testCompile "ch.qos.logback:logback-classic:$dependencyLogbackVersion"
+    testCompile "ch.qos.logback:logback-core:$dependencyLogbackVersion"
+    testCompile "org.slf4j:slf4j-api:$dependencySlfjVersion"
+    testCompile "org.testng:testng:$dependencyTestngVersion"
+}
+
+test {
+    useJUnitPlatform()
+}

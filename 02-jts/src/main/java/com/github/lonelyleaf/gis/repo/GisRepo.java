@@ -66,4 +66,5 @@ public interface GisRepo {
             "from measure\n" +
             "         left join t_zunyi_roads roads on measure.road_gid = roads.gid")
     Point bindRoad(@Param("point") Point point,@Param("roadDistance") double roadDistance);
+
 }

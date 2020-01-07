@@ -8,7 +8,7 @@
 从中获取到比如，车辆经过的区县有哪些？行经的轨迹有多长？gps坐标有误差，希望对其
 坐标点进行绑路等等
 
-下面的内容中，会对如何分析位置数据进行简单介绍
+下面的内容中，会对如何分析位置数据进行简单介绍，包含sql与qgis的使用等。
 
 ## 1 环境说明
 
@@ -180,9 +180,49 @@ ST_Distance(geometry A, geometry B)计算两个几何图形之间的最短距离
 上面介绍了基本的数据类型与关系分析的函数，在上篇文章工作的基础上，
 下面针对gps轨迹（point）、路网（linestring）、行政区边界（polygon），我们会做一些分析。
 
+### 5.1 统计轨迹所经过的区县与QGIS导入sql图层
 
+由于gps坐标是point，所以只要查找每个点在哪个区县就可以了，使用`st_within`。
+由于我的表结构中使用的geography进行建模，所以查询时，还需要转换类型为geometry。
+这两个类型的主要区别是在某些计算中，后面会说到。
 
-### 5.1 
+```postgresql
+-- 由于gps表数据量较大，这里只取每分钟的第一个gps坐标
+with every_1min as (select distinct on (EXTRACT(year from gps.time),
+    EXTRACT(month from gps.time) ,
+    EXTRACT(day from gps.time) ,
+    EXTRACT(hour from gps.time) ,
+    EXTRACT(minute from gps.time) ) *
+                    from t_gps gps)
+select distinct on (t.gid) t.gid, t.name, t.layer, t.geom
+from every_1min gps
+         inner join t_guizhou_boundary t
+                    on st_within(gps.location::geometry, t.geom::geometry)
+where gps.time < now()
+  and t.layer = '区县'
+```
+
+![img](img/sql/sql-district-output.png)
+
+即使减少了gps坐标的量，在我的pc上还是需要2s多。在直接join时（大概7000多个点），
+查询花了22s多。
+
+为了更好的分析轨迹坐标与查询结果的关系，我们在[QGIS]中将这个查询作为图层进行导入。
+选择 数据库->数据库管理器->数据库->sql窗口
+
+![img](img/qgis-import-sql-query/01-qgis-import-sql-query.png)
+
+![img](img/qgis-import-sql-query/02-qgis-import-sql-query.png)
+
+然后在右边的窗口中，就可以将sql放入，然后执行，选择`导入为新图层`，然后载入
+
+![img](img/qgis-import-sql-query/03-qgis-import-sql-query.png)
+
+最后在qgis中选中刚才的图层和gps表就可以看到结果
+
+![img](img/qgis-import-sql-query/04-qgis-import-sql-query.png)
+
+### 5.2
 
 
  [QGIS]: https://qgis.org/zh_CN/site/

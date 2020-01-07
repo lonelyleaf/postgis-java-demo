@@ -1,6 +1,5 @@
 package com.github.lonelyleaf.gis.config;
 
-import com.bedatadriven.jackson.datatype.jts.JtsModule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -41,11 +40,6 @@ public class JacksonConfig {
     @Bean
     public JavaTimeModule javaTimeModule() {
         return new JavaTimeModule();
-    }
-
-    @Bean
-    public JtsModule jtsModule(){
-        return new JtsModule();
     }
 
     @Bean

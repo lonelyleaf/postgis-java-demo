@@ -222,10 +222,89 @@ where gps.time < now()
 
 ![img](img/qgis-import-sql-query/04-qgis-import-sql-query.png)
 
-### 5.2
+### 5.2 线性参考[linear_referencing]与gps轨迹绑路
+
+由于gps设备所采集的坐标会存在误差，车辆的轨迹时常不会在道路上，为了纠正数据就需要绑路了。
+百度或高德这些地图服务商一般都有绑路的接口或服务，但调用一般有限制。这里通过路网数据与
+[线性参考][linear_referencing]（Linear Referencing）来进行绑路操作。
+
+
+#### 5.2.1 线性参考简介
+线性参考是一种表示要素的方法，这些要素可以通过引用一个基本的线性要素来描述。
+比如下面的sql
+
+```postgresql
+-- Simple example of locating a point half-way along a line
+-- 点在线上
+SELECT ST_LineLocatePoint('LINESTRING(0 0, 2 2)', 'POINT(1 1)');
+-- Answer 0.5
+ 
+-- What if the point is not on the line? It projects to closest point
+-- 点不在线上，直接取点在线上的映射
+SELECT ST_LineLocatePoint('LINESTRING(0 0, 2 2)', 'POINT(0 2)');
+-- Answer 0.5
+
+--上面的结果是线的参考值，再使用ST_LineInterpolatePoint下面函数就可以得到
+-- 映射点的坐标
+-- Simple example of locating a point half-way along a line
+SELECT ST_AsText(ST_LineInterpolatePoint('LINESTRING(0 0, 2 2)', 0.5));
+-- Answer POINT(1 1)
+```
+
+这样只要找到合适的gps点的参考路线，就可以通过[线性参考][linear_referencing]来进行绑路了。
+
+#### 5.2.2 实战
+
+`t_zunyi_roads`表中，有遵义市的路网数据
+
+![img](img/bind-roads/01-bind-roads.png)
+
+数据是从[OpenStreetMap](https://www.openstreetmap.org)上下载的，将数据和卫星
+地图对比，在某些路段OpenStreetMap的数据还是有些问题的……
+
+![img](img/bind-roads/open-street-map-layers.png)
+
+但我们重点是实现绑路，这些问题就算了。首先，就是需要找到离坐标最近的道路
+
+```postgresql
+select gps.time                                                         as time,
+       gps.location                                                     as location,
+       roads.gid                                                        as road_gid,
+       ST_Distance(gps.location, roads.geom)                            as distance,
+       ST_LineLocatePoint(roads.geom::geometry, gps.location::geometry) AS measure
+from t_gps gps
+         left join t_zunyi_roads roads on
+    st_dwithin(roads.geom, gps.location, 30, false)
+order by gps.time,distance
+```
+
+这里除了使用`ST_Distance`来拿到了坐标到线的距离，还计算了该点沿线串的线性参考比例measure。
+下面需要使用measure来计算坐标在道路上的映射点。完整sql是
+
+```postgresql
+with gps as
+         (select gps.time                                                         as time,
+                 gps.location                                                     as location,
+                 roads.gid                                                        as road_gid,
+                 ST_Distance(gps.location, roads.geom)                            as distance,
+                 ST_LineLocatePoint(roads.geom::geometry, gps.location::geometry) AS measure
+          from t_gps gps
+                   left join t_zunyi_roads roads on
+              st_dwithin(roads.geom, gps.location, 30, false)
+          order by gps.time, distance)
+select distinct on (gps.time ,gps.location,roads.gid) gps.time                                                             as gps_time,
+                                                      roads.gid                                                            as road_gid,
+                                                      ST_LineInterpolatePoint(roads.geom::geometry, gps.measure)::geometry as line_ref
+from gps
+         left join t_zunyi_roads roads on gps.road_gid = roads.gid
+```
+
+这里黄色的点就是绑路后的坐标了，可以看到基本效果还是不错的。
+
+![img](img/bind-roads/02-bind-roads.png)
 
 
  [QGIS]: https://qgis.org/zh_CN/site/
  [geometries]: http://postgis.net/workshops/postgis-intro/geometries.html
  [spatial_relationships]: http://postgis.net/workshops/postgis-intro/spatial_relationships.html
-
+ [linear_referencing]: http://postgis.net/workshops/postgis-intro/linear_referencing.html

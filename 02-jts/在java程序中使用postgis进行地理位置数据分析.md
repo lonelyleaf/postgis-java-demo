@@ -180,7 +180,37 @@ ST_Distance(geometry A, geometry B)计算两个几何图形之间的最短距离
 上面介绍了基本的数据类型与关系分析的函数，在上篇文章工作的基础上，
 下面针对gps轨迹（point）、路网（linestring）、行政区边界（polygon），我们会做一些分析。
 
-### 5.1 统计轨迹所经过的区县与QGIS导入sql图层
+### 5.1 空间数据索引
+
+对于数据库，要搞笑进行查询，必须要创建索引。
+创建空间索引，我们需要使用gist类型。比如对于gps表，我们这样创建索引
+
+```postgresql
+create index idx_gpt_location on t_gps using gist ("location");
+```
+
+传统数据库一般使用b+树进行索引，而空间索引略有不同-它们不能索引几何要素本身，而是索引几何要素的边界框
+
+![img](img/bbox.png)
+
+在上图中，与黄星相交的线串数是一条，即红线。但是与黄色框相交的要素的边界框是两个，红框和蓝框。
+
+空间数据库回答"哪些直线与黄星相交"这一问题的方法是，首先使用空间索引（速度非常快）判断"哪些框与黄色框相交"，
+然后仅对第一次返回的几何要素进行"哪些直线与黄星相交"的精确计算。
+
+对于一个大的数据表来说，这种先评估近似索引，然后进行精确测试的"两遍"机制可以从根本上减少计算量。
+
+PostGIS和Oracle Spatial都具有相同的"R-Tree"空间索引结构。R-Tree将数据分解为矩形（rectangle）、
+子矩形（sub-rectangle）和子-子矩形（sub-sub rectangle）等。它是一种自调优（self-tuning）索引结构，
+可自动处理可变数据的密度和对象大小。
+
+![img](img/rtree-hierarchy.png)
+
+详情请参考
+- [Spatial Indexing](https://postgis.net/workshops/postgis-intro/indexing.html)
+- [PostGIS教程十一：空间索引][PostGIS教程十一：空间索引]
+
+### 5.2 统计轨迹所经过的区县与QGIS导入sql图层
 
 由于gps坐标是point，所以只要查找每个点在哪个区县就可以了，使用`st_within`。
 由于我的表结构中使用的geography进行建模，所以查询时，还需要转换类型为geometry。
@@ -222,14 +252,14 @@ where gps.time < now()
 
 ![img](img/qgis-import-sql-query/04-qgis-import-sql-query.png)
 
-### 5.2 线性参考[linear_referencing]与gps轨迹绑路
+### 5.3 线性参考[linear_referencing]与gps轨迹绑路
 
 由于gps设备所采集的坐标会存在误差，车辆的轨迹时常不会在道路上，为了纠正数据就需要绑路了。
 百度或高德这些地图服务商一般都有绑路的接口或服务，但调用一般有限制。这里通过路网数据与
 [线性参考][linear_referencing]（Linear Referencing）来进行绑路操作。
 
 
-#### 5.2.1 线性参考简介
+#### 5.3.1 线性参考简介
 线性参考是一种表示要素的方法，这些要素可以通过引用一个基本的线性要素来描述。
 比如下面的sql
 
@@ -253,7 +283,7 @@ SELECT ST_AsText(ST_LineInterpolatePoint('LINESTRING(0 0, 2 2)', 0.5));
 
 这样只要找到合适的gps点的参考路线，就可以通过[线性参考][linear_referencing]来进行绑路了。
 
-#### 5.2.2 实战
+#### 5.3.2 实战
 
 `t_zunyi_roads`表中，有遵义市的路网数据
 
@@ -308,3 +338,4 @@ from gps
  [geometries]: http://postgis.net/workshops/postgis-intro/geometries.html
  [spatial_relationships]: http://postgis.net/workshops/postgis-intro/spatial_relationships.html
  [linear_referencing]: http://postgis.net/workshops/postgis-intro/linear_referencing.html
+ [PostGIS教程十一：空间索引]: https://blog.csdn.net/qq_35732147/article/details/86212840

@@ -1,0 +1,42 @@
+spring:
+  profiles:
+    active: dev
+  jackson:
+    serialization:
+      write_dates_as_timestamps: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+  jdbc:
+    template:
+      query-timeout: 15
+
+  flyway:
+    enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: false
+        dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
+    database: postgresql
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/jpa-test
+    #这里使用的驱动不一样！，可以自动添加jts的各种类型
+#    driver-class-name: org.postgis.jts.JtsWrapper
+#    #url也不一样
+#    url: jdbc:postgres_jts://localhost:5432/jpa-test
+    username: postgres
+    password: admin
+    initialization-mode: never
+
+mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-handlers-package: "com.github.lonelyleaf.gis.mybatis.jts"

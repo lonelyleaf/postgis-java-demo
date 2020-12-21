@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.springframework.boot.test.context.SpringBootTest;
 
 @Slf4j
 class TestGeoJson {

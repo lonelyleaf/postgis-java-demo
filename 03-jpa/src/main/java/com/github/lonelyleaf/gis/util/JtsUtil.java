@@ -17,6 +17,8 @@
 package com.github.lonelyleaf.gis.util;
 
 
+import org.geolatte.geom.crs.CoordinateReferenceSystems;
+import org.geolatte.geom.crs.Geographic2DCoordinateReferenceSystem;
 import org.locationtech.jts.geom.CoordinateXY;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
@@ -32,5 +34,10 @@ public class JtsUtil {
     public static Point newPoint(double x, double y) {
         return geometryFactory4326.createPoint(new CoordinateXY(x, y));
     }
+
+
+//    public static CoordinateReferenceSystem<C2D> c4326 = CrsRegistry.getProjectedCoordinateReferenceSystemForEPSG(4326);
+//    public static CoordinateReferenceSystem<G2D> g4326 = CrsRegistry.getGeographicCoordinateReferenceSystemForEPSG(4326);
+    public static Geographic2DCoordinateReferenceSystem WGS84 = CoordinateReferenceSystems.WGS84;
 
 }

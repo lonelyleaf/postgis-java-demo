@@ -1,8 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: "net.ltgt.apt"
-apply plugin: 'net.ltgt.apt-idea'
 apply plugin: "io.freefair.lombok"
 
 group = 'xyz.lonelyleaf'
@@ -10,13 +8,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 ext {
-    querydslVersion = "4.2.2"
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+    querydslVersion = "4.4.0"
 }
 
 //添加mapstuct的一些配置
@@ -33,6 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     //数据库管理
     implementation 'org.flywaydb:flyway-core'
@@ -46,7 +39,6 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa:$querydslVersion"
     implementation "com.querydsl:querydsl-spatial:$querydslVersion"
     annotationProcessor "com.querydsl:querydsl-spatial:$querydslVersion"
-    annotationProcessor "com.querydsl:querydsl-apt:$querydslVersion:jpa"
     annotationProcessor "com.querydsl:querydsl-apt:$querydslVersion:jpa"
 
     //jdk9后jdk中不再包含javax的包，但querydsl有依赖，这里补全下
@@ -63,22 +55,19 @@ dependencies {
     implementation "com.fasterxml.jackson.module:jackson-module-parameter-names"
     implementation "com.fasterxml.jackson.module:jackson-module-afterburner"
 
-    implementation 'org.geolatte:geolatte-geom:0.13'
+    implementation 'javax.persistence:javax.persistence-api:2.2'
 
     //java bean转换
-    implementation "org.mapstruct:mapstruct-jdk8:$mapstructVersion"
+    implementation "org.mapstruct:mapstruct:$mapstructVersion"
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
 
     //swagger文档
-    implementation("io.springfox:springfox-swagger2:$springFoxVersion") {
-        exclude group: 'io.swagger', module: 'swagger-annotations'
-        exclude group: 'io.swagger', module: 'swagger-models'
-    }
+    implementation "io.springfox:springfox-boot-starter:$springFoxVersion"
     implementation "io.springfox:springfox-swagger-ui:$springFoxVersion"
-    //添加下面依赖是为了排除获取api文档时的报错：java.lang.NumberFormatException: For input string: ""
-    //后面升级springfox后，可以移除下面的两个依赖
-    implementation 'io.swagger:swagger-annotations:1.5.21'
-    implementation 'io.swagger:swagger-models:1.5.21'
+    implementation "io.springfox:springfox-bean-validators:$springFoxVersion"
+
+    implementation "org.geolatte:geolatte-geom:$geolatteGeomVersion"
+    implementation "org.geolatte:geolatte-geojson:$geolatteGeomVersion"
 
 //    //jts
 //    implementation "org.locationtech.jts:jts-core:$jtsVersion"

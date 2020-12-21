@@ -16,15 +16,9 @@
 
 package com.github.lonelyleaf.gis.service;
 
-import com.github.lonelyleaf.gis.entity.DistrictEntity;
-import com.github.lonelyleaf.gis.entity.DistrictGeomEntity;
 import com.github.lonelyleaf.gis.repo.DistrictRepo;
-import com.google.common.base.Strings;
-import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class DistrictService  {

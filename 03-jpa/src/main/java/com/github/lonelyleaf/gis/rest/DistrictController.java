@@ -16,21 +16,11 @@
 
 package com.github.lonelyleaf.gis.rest;
 
-import com.github.lonelyleaf.gis.entity.DistrictEntity;
 import com.github.lonelyleaf.gis.service.DistrictService;
-import com.github.lonelyleaf.gis.util.JtsUtil;
-import com.google.common.base.Strings;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.locationtech.jts.geom.Point;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/district")

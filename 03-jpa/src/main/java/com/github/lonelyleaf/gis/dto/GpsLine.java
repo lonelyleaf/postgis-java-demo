@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.locationtech.jts.geom.LineString;
-import org.locationtech.jts.geom.MultiPoint;
 
 import java.util.Date;
 

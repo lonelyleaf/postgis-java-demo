@@ -4,12 +4,11 @@ import com.bedatadriven.jackson.datatype.jts.JtsModule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import org.locationtech.spatial4j.io.jackson.ShapesAsGeoJSONModule;
+import com.github.lonelyleaf.gis.util.JsonUtil;
+import org.geolatte.geom.json.GeolatteGeomModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.github.lonelyleaf.gis.util.JsonUtil;
 
 /**
  * jackson配置
@@ -50,8 +49,13 @@ public class JacksonConfig {
 //    }
 
     @Bean
-    public JtsModule jtsModule(){
+    public JtsModule jtsModule() {
         return new JtsModule();
+    }
+
+    @Bean
+    public GeolatteGeomModule geolatteGeomModule() {
+        return new GeolatteGeomModule();
     }
 
     @Bean

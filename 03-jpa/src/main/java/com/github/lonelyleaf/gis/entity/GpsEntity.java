@@ -3,7 +3,8 @@ package com.github.lonelyleaf.gis.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.locationtech.jts.geom.Point;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Point;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,7 +24,7 @@ public class GpsEntity {
     @ApiModelProperty("设备id")
     private String devId;
     @ApiModelProperty("位置")
-    private Point location;
+    private Point<G2D> location;
     @ApiModelProperty("卫星定位数")
     private int gpsNum;
     @ApiModelProperty("GPS定位信息")

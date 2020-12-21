@@ -1,21 +1,15 @@
 package com.github.lonelyleaf.gis.rest;
 
 import com.github.lonelyleaf.gis.dto.GpsDto;
-import com.github.lonelyleaf.gis.dto.GpsLine;
-import com.github.lonelyleaf.gis.dto.SimplePoint;
 import com.github.lonelyleaf.gis.entity.GpsEntity;
 import com.github.lonelyleaf.gis.mapper.GpsMapper;
 import com.github.lonelyleaf.gis.service.GpsService;
-import com.github.lonelyleaf.gis.util.JtsUtil;
 import com.google.common.base.Strings;
 import io.swagger.annotations.Api;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Point;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +39,17 @@ public class GpsController {
         return gpsService.history(devId, bTime, eTime).stream()
                 .map(gpsMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/history/geojson")
+    public List<GpsEntity> historyGeojson(
+            @RequestParam(value = "devId", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) String devId,
+            @RequestParam(value = "bTime", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date bTime,
+            @RequestParam(value = "eTime", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date eTime) {
+        return gpsService.history(devId, bTime, eTime);
     }
 
 //    @GetMapping("/line")

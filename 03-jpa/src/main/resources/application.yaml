@@ -27,13 +27,13 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/jpa-test
+    url: jdbc:postgresql://localhost:5432/jpa_test
     #这里使用的驱动不一样！，可以自动添加jts的各种类型
 #    driver-class-name: org.postgis.jts.JtsWrapper
 #    #url也不一样
 #    url: jdbc:postgres_jts://localhost:5432/jpa-test
     username: postgres
-    password: admin
+    password: postgres
     initialization-mode: never
 
 mybatis-plus:

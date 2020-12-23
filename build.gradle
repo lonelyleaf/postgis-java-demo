@@ -17,8 +17,13 @@ buildscript {
     }
     //gradle插件的仓库
     repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "https://repo.osgeo.org/repository/release/" }
         maven {
-            url "http://maven.aliyun.com/nexus/content/groups/public/"
+            url "https://repo.osgeo.org/repository/snapshot/"
+            mavenContent {
+                snapshotsOnly()
+            }
         }
         jcenter()
         maven {
@@ -34,13 +39,30 @@ buildscript {
     }
 }
 
-allprojects{
+allprojects {
     group = 'xyz.lonelyleaf'
     version = '0.0.1-SNAPSHOT'
 
     repositories {
         maven {
             url "http://maven.aliyun.com/nexus/content/groups/public/"
+            content {
+                excludeModule("javax.media", "jai_core")
+                excludeGroup("geotools")
+            }
+        }
+        maven {
+            url "https://repo.osgeo.org/repository/release/"
+            content {
+                includeModule("javax.media", "jai_core")
+                includeGroup("geotools")
+            }
+        }
+        maven {
+            url "https://repo.osgeo.org/repository/snapshot/"
+            mavenContent {
+                snapshotsOnly()
+            }
         }
         jcenter()
         maven { url "https://jitpack.io" }

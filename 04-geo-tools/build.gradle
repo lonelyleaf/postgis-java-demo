@@ -74,12 +74,13 @@ dependencies {
 //    implementation "org.locationtech.jts:jts-core:$jtsVersion"
 //    implementation "org.locationtech.spatial4j:spatial4j:$spatial4jVersion"
     //序列化为geojson
-    implementation project(':00-jackson-datatype-jts')
+    //这个没维护了，只有自己改下
+    //implementation 'com.bedatadriven:jackson-datatype-jts:2.2'
+//    implementation project(':00-jackson-datatype-jts')
     //postgis-jdbc-jts
     implementation project(':00-postgis-jdbc-jts')
 
-//    implementation "org.geotools:gt-shapefile:$geotoolsVersion"
-    //implementation "org.geotools:gt-swing:$geotoolsVersion"
+    implementation "org.geotools:gt-shapefile:$geotoolsVersion"
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
@@ -93,7 +94,7 @@ dependencyManagement {
         mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
     }
     dependencies {
-        dependency 'com.google.guava:guava:30.1-jre'
+        dependency 'com.google.guava:guava:27.0.1-jre'
     }
 }
 

@@ -25,6 +25,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter"
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     //mybatis
     implementation "com.baomidou:mybatis-plus-boot-starter:$mybatisPlusVersion"
@@ -46,7 +47,7 @@ dependencies {
     implementation "com.fasterxml.jackson.module:jackson-module-afterburner"
 
     //java bean转换
-    implementation "org.mapstruct:mapstruct-jdk8:$mapstructVersion"
+    implementation "org.mapstruct:mapstruct:$mapstructVersion"
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
 
     //swagger文档
@@ -63,6 +64,8 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+
+    implementation "com.google.guava:guava:30.1-jre"
 }
 
 test {

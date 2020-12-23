@@ -32,3 +32,4 @@ out/
 .vscode/
 
 **/build/
+/misc/geoserver-2.18.1-war/
